@@ -1,0 +1,76 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+ 
+
+  <div class="modal-body">
+
+
+    	<form [formGroup] = "angForm" (ngSubmit)="onFormSubmit()">
+
+		  <div formArrayName="frm_ary_fa">
+		  
+        <div *ngFor="let name of frm_ary_fa.controls; index as idx" class="form-group">
+        
+          <div class="dynamic_auto">
+            <ng-autocomplete
+                    [data]="countries"
+                    [initialValue]="red"
+                    [searchKeyword]="keyword"
+                    placeHolder="Select Final Approver"
+                    (selected)='selectEvent($event)'
+                    (inputChanged)='onChangeSearch($event)'
+                    (inputFocused)='onFocused($event)'
+                    historyIdentifier=""
+                    [itemTemplate]="itemTemplate"
+                    [notFoundTemplate]="notFoundTemplate" [formControlName]="idx" class="ng_auto_complete">
+                  </ng-autocomplete>
+                  
+                  <ng-template #itemTemplate let-item>
+                    {{item | json}}
+                    <a [innerHTML]="item"></a>
+                  </ng-template>
+                  
+                  <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                  </ng-template>
+
+          </div>
+                  
+      <!--<label *ngIf="name.invalid" [ngClass] = "'error'"> Name is required. </label>-->
+
+      <button (click)="deleteNameField(idx)" class="btn btn-danger">Delete</button>&nbsp; 
+       <button class="btn btn-primary" (click)="move(-1, idx)"> Up</button> &nbsp; 
+      <button class="btn btn-primary" (click)="move(1, idx)"> Down</button>
+
+
+
+        </div>
+			
+		  </div> 
+		  
+		  <div>
+
+
+		  </div>
+	</form>
+  </div>
+  <div class="modal-footer">
+          <button type="button" (click)="addNameField('')" class="btn btn-success" [ngClass] = "'pad'">Add </button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+          <button type="submit" (click)="onFormSubmit()"  class="btn btn-primary">Save</button>
+  </div>
+</ng-template>
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">START</button>
+
+<hr>
+
+<pre>{{ closeResult }}</pre>
+
+     <p> {{output | json}}</p>
